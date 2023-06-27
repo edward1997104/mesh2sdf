@@ -6,7 +6,7 @@ import mesh2sdf.core
 
 
 def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
-            fix: bool = False, level: float = 0.015, return_mesh: bool = False):
+            fix: bool = False, level: float = 0.015, return_mesh: bool = False, scale_ratio = 1.0):
   r''' Converts a input mesh to signed distance field (SDF).
 
   Args:
@@ -32,15 +32,15 @@ def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
 
   # keep the max component of the extracted mesh
   mesh = trimesh.Trimesh(vertices, faces)
-  components = mesh.split(only_watertight=False)
-  bbox = []
-  for c in components:
-    bbmin = c.vertices.min(0)
-    bbmax = c.vertices.max(0)
-    bbox.append((bbmax - bbmin).max())
-  max_component = np.argmax(bbox)
-  mesh = components[max_component]
-  mesh.vertices = mesh.vertices * (2.0 / size) - 1.0  # normalize it to [-1, 1]
+  # components = mesh.split(only_watertight=False)
+  # bbox = []
+  # for c in components:
+  #   bbmin = c.vertices.min(0)
+  #   bbmax = c.vertices.max(0)
+  #   bbox.append((bbmax - bbmin).max())
+  # max_component = np.argmax(bbox)
+  # mesh = components[max_component]
+  mesh.vertices = ((mesh.vertices) * (2.0 / size) - 1.0) * scale_ratio  # normalize it to [-1, 1]
 
   # re-compute sdf
   sdf = mesh2sdf.core.compute(mesh.vertices, mesh.faces, size)
