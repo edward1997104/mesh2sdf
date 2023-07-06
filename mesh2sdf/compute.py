@@ -40,7 +40,7 @@ def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
   #   bbox.append((bbmax - bbmin).max())
   # max_component = np.argmax(bbox)
   # mesh = components[max_component]
-  mesh.vertices = ((mesh.vertices) * (2.0 / size) - 1.0) * scale_ratio  # normalize it to [-1, 1]
+  mesh.vertices = ((mesh.vertices) * (2.0 / size) - 1.0)  # normalize it to [-1, 1]
 
   # re-compute sdf
   sdf = mesh2sdf.core.compute(mesh.vertices, mesh.faces, size)
