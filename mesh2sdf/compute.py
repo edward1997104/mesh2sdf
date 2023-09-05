@@ -43,7 +43,7 @@ def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
       keep_flag = True
       for c_other in components:
         if c_other != c: #
-          inside_flag = trimesh.bounds.contain(c_other.bounds, bounds)
+          inside_flag = trimesh.bounds.contains(c_other.bounds, bounds)
           if inside_flag:
             keep_flag = False
 
