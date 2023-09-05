@@ -51,6 +51,7 @@ def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
 
     #process the mesh
     components = components[keep_flags]
+    print(f"Remaining component len : {len(components)}")
     mesh = trimesh.util.concatenate(components)
   else:
     bbox = []
