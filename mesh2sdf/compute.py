@@ -6,7 +6,7 @@ import mesh2sdf.core
 
 
 def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
-            fix: bool = False, level: float = 0.015, return_mesh: bool = False, new_fix = True, ):
+            fix: bool = False, level: float = 0.015, return_mesh: bool = False, new_fix = True):
   r''' Converts a input mesh to signed distance field (SDF).
 
   Args:
