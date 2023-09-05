@@ -6,7 +6,7 @@ import mesh2sdf.core
 
 
 def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
-            fix: bool = False, level: float = 0.015, return_mesh: bool = False, scale_ratio = 1.0):
+            fix: bool = False, level: float = 0.015, return_mesh: bool = False, new_fix = True, ):
   r''' Converts a input mesh to signed distance field (SDF).
 
   Args:
@@ -32,14 +32,34 @@ def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
 
   # keep the max component of the extracted mesh
   mesh = trimesh.Trimesh(vertices, faces)
-  # components = mesh.split(only_watertight=False)
-  # bbox = []
-  # for c in components:
-  #   bbmin = c.vertices.min(0)
-  #   bbmax = c.vertices.max(0)
-  #   bbox.append((bbmax - bbmin).max())
-  # max_component = np.argmax(bbox)
-  # mesh = components[max_component]
+
+  components = mesh.split(only_watertight=False)
+  if new_fix:
+    keep_flags = []
+
+    ## check whether each component contained by others
+    for c in components: # if one of them not in others
+      bounds = c.bounds
+      keep_flag = True
+      for c_other in components:
+        if c_other != c: #
+          inside_flag = trimesh.bounds.contain(c_other.bounds, bounds)
+          if inside_flag:
+            keep_flag = False
+
+      keep_flags.append(keep_flag)
+
+    #process the mesh
+    components = components[keep_flags]
+    mesh = trimesh.util.concatenate(components)
+  else:
+    bbox = []
+    for c in components:
+      bbmin = c.vertices.min(0)
+      bbmax = c.vertices.max(0)
+      bbox.append((bbmax - bbmin).max())
+    max_component = np.argmax(bbox)
+    mesh = components[max_component]
   mesh.vertices = ((mesh.vertices) * (2.0 / size) - 1.0)  # normalize it to [-1, 1]
 
   # re-compute sdf
