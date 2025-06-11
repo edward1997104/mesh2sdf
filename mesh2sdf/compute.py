@@ -26,6 +26,7 @@ def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
   if not fix:
     return (sdf, trimesh.Trimesh(vertices, faces)) if return_mesh else sdf
 
+  print(f"SDF array memory size: {sdf.nbytes / (1024 ** 2):.2f} MB")
   # NOTE: the negative value is not reliable if the mesh is not watertight
   sdf = np.abs(sdf)
   vertices, faces, _, _ = skimage.measure.marching_cubes(sdf, level)
@@ -50,7 +51,9 @@ def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
       keep_flags.append(keep_flag)
 
     #process the mesh
-    components = components[keep_flags]
+    print("Keep flags:", keep_flags)
+    print("Components len:", len(components))
+    components = [comp for comp, keep in zip(components, keep_flags) if keep]
     print(f"Remaining component len : {len(components)}")
     mesh = trimesh.util.concatenate(components)
   else:

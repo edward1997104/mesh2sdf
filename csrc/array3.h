@@ -1,7 +1,7 @@
 #ifndef ARRAY3_H
 #define ARRAY3_H
 
-#include "array1.h"
+#include "diskarray1.h"
 #include <algorithm>
 #include <cassert>
 #include <vector>
@@ -258,15 +258,15 @@ struct Array3
 
 // some common arrays
 
-typedef Array3<double, Array1<double> > Array3d;
-typedef Array3<float, Array1<float> > Array3f;
-typedef Array3<long long, Array1<long long> > Array3ll;
-typedef Array3<unsigned long long, Array1<unsigned long long> > Array3ull;
-typedef Array3<int, Array1<int> > Array3i;
-typedef Array3<unsigned int, Array1<unsigned int> > Array3ui;
-typedef Array3<short, Array1<short> > Array3s;
-typedef Array3<unsigned short, Array1<unsigned short> > Array3us;
-typedef Array3<char, Array1<char> > Array3c;
-typedef Array3<unsigned char, Array1<unsigned char> > Array3uc;
+typedef Array3<double, DiskArray1<double> > Array3d;
+typedef Array3<float, DiskArray1<float> > Array3f;
+typedef Array3<long long, DiskArray1<long long> > Array3ll;
+typedef Array3<unsigned long long, DiskArray1<unsigned long long> > Array3ull;
+typedef Array3<int, DiskArray1<int> > Array3i;
+typedef Array3<unsigned int, DiskArray1<unsigned int> > Array3ui;
+typedef Array3<short, DiskArray1<short> > Array3s;
+typedef Array3<unsigned short, DiskArray1<unsigned short> > Array3us;
+typedef Array3<char, DiskArray1<char> > Array3c;
+typedef Array3<unsigned char, DiskArray1<unsigned char> > Array3uc;
 
 #endif

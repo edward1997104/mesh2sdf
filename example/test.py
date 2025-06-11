@@ -9,7 +9,7 @@ filename = sys.argv[1] if len(sys.argv) > 1 else  \
     os.path.join(os.path.dirname(__file__), 'data', 'plane.obj')
 
 mesh_scale = 0.8
-size = 128
+size = 1024
 level = 2 / size
 
 mesh = trimesh.load(filename, force='mesh')
@@ -25,11 +25,11 @@ vertices = (vertices - center) * scale
 # fix mesh
 t0 = time.time()
 sdf, mesh = mesh2sdf.compute(
-    vertices, mesh.faces, size, fix=True, level=level, return_mesh=True)
+    vertices, mesh.faces, size, fix=True, level=level, return_mesh=True, new_fix=True)
 t1 = time.time()
 
 # output
 mesh.vertices = mesh.vertices / scale + center
-mesh.export(filename[:-4] + '.fixed.obj')
+mesh.export(filename[:-4] + f'{size}_fixed.obj')
 np.save(filename[:-4] + '.npy', sdf)
 print('It takes %.4f seconds to process %s' % (t1-t0, filename))
