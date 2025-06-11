@@ -261,7 +261,7 @@ private:
    void map_file(unsigned long elems) {
       if (filename.empty()) {
          std::stringstream ss;
-         ss << "file_" << getpid() << "_" << generate_uuid();
+         ss << "/data/tmp/file_" << getpid() << "_" << generate_uuid();
          filename = ss.str();
       }
       size_t bytes = elems * sizeof(T);

@@ -1,6 +1,7 @@
 import numpy as np
 import trimesh
 import skimage.measure
+import os
 
 import mesh2sdf.core
 
@@ -20,6 +21,7 @@ def compute(vertices: np.ndarray, faces: np.ndarray, size: int = 128,
         recommended default value is 2/size.
     return_mesh (bool): If True, also return the fixed mesh.
   '''
+  print("Process PID:", os.getpid())
 
   # compute sdf
   sdf = mesh2sdf.core.compute(vertices, faces, size)
